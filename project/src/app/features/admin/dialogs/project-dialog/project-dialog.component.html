@@ -1,0 +1,98 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 class="dialog-title">{{ isEditMode ? 'Edit Project' : 'Add New Project' }}</h2>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="dialog-content">
+      <div class="grid gap-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Project Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter project name">
+          <mat-error *ngIf="form.get('name')?.hasError('required')">
+            Project name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" placeholder="Enter project description" rows="3"></textarea>
+          <mat-error *ngIf="form.get('description')?.hasError('required')">
+            Description is required
+          </mat-error>
+        </mat-form-field>
+
+        <div class="grid grid-cols-2 gap-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Team Lead</mat-label>
+            <mat-select formControlName="teamLeadId">
+              <mat-option *ngFor="let lead of teamLeads" [value]="lead.id">
+                {{ lead.firstName }} {{ lead.lastName }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('teamLeadId')?.hasError('required')">
+              Team lead is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Department</mat-label>
+            <mat-select formControlName="departmentId">
+              <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                {{ dept.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('departmentId')?.hasError('required')">
+              Department is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="startPicker" formControlName="startDate">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+            <mat-error *ngIf="form.get('startDate')?.hasError('required')">
+              Start date is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="endPicker" formControlName="endDate">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Team Members</mat-label>
+          <mat-select formControlName="teamMemberIds" multiple>
+            <mat-option *ngFor="let member of teamMembers" [value]="member.id">
+              {{ member.firstName }} {{ member.lastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statuses" [value]="status">
+              {{ status }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('status')?.hasError('required')">
+            Status is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn-submit" [disabled]="!form.valid">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </form>
+</div>

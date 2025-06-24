@@ -1,0 +1,31 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 class="dialog-title">{{ isEditMode ? 'Edit Department' : 'Add New Department' }}</h2>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="dialog-content">
+      <div class="grid gap-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Department Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter department name">
+          <mat-error *ngIf="form.get('name')?.hasError('required')">
+            Department name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" placeholder="Enter department description" rows="3"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn-submit" [disabled]="!form.valid">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </form>
+</div>

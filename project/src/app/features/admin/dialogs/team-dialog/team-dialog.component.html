@@ -1,0 +1,55 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 class="dialog-title">{{ isEditMode ? 'Edit Team' : 'Add New Team' }}</h2>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="dialog-content">
+      <div class="grid gap-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Team Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter team name">
+          <mat-error *ngIf="form.get('name')?.hasError('required')">
+            Team name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" placeholder="Enter team description" rows="3"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Team Lead</mat-label>
+          <mat-select formControlName="teamLeadId">
+            <mat-option *ngFor="let lead of teamLeads" [value]="lead.id">
+              {{ lead.firstName }} {{ lead.lastName }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('teamLeadId')?.hasError('required')">
+            Team lead is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Team Members</mat-label>
+          <mat-select formControlName="teamMemberIds" multiple>
+            <mat-option *ngFor="let member of teamMembers" [value]="member.id">
+              {{ member.firstName }} {{ member.lastName }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('teamMemberIds')?.hasError('required')">
+            At least one team member is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn-submit" [disabled]="!form.valid">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </form>
+</div>

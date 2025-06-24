@@ -1,0 +1,10 @@
+@import '../../../../shared/styles/dialog.css';
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}

@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    @apply antialiased;
+  }
+  
+  body {
+    @apply text-gray-800 bg-gray-50;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium leading-tight text-primary-700;
+  }
+  
+  h1 {
+    @apply text-3xl;
+  }
+  
+  h2 {
+    @apply text-2xl;
+  }
+  
+  h3 {
+    @apply text-xl;
+  }
+  
+  a {
+    @apply text-primary-600 hover:text-primary-700 transition-colors;
+  }
+}
+
+/* Custom component classes */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-400;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-secondary-400 text-white hover:bg-secondary-500 focus:ring-secondary-300;
+  }
+  
+  .btn-accent {
+    @apply btn bg-accent-400 text-white hover:bg-accent-500 focus:ring-accent-300;
+  }
+  
+  .btn-outline {
+    @apply btn border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-primary-500;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-card p-6 transition-shadow hover:shadow-lg border-t-4 border-primary-500;
+  }
+  
+  .form-input {
+    @apply w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500;
+  }
+  
+  .form-select {
+    @apply w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500;
+  }
+  
+  .form-checkbox {
+    @apply rounded border-gray-300 text-primary-500 focus:ring-primary-500;
+  }
+  
+  .form-radio {
+    @apply border-gray-300 text-primary-500 focus:ring-primary-500;
+  }
+
+  .nav-link {
+    @apply text-gray-600 hover:text-primary-500 hover:bg-primary-50 px-3 py-2 rounded-md text-sm font-medium transition-colors;
+  }
+
+  .nav-link-active {
+    @apply bg-primary-50 text-primary-600;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .transition-fast {
+    @apply transition-all duration-150 ease-in-out;
+  }
+  
+  .transition-medium {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .transition-slow {
+    @apply transition-all duration-500 ease-in-out;
+  }
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

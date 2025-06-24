@@ -1,0 +1,6 @@
+@import '../../../../shared/styles/dialog.css';
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}

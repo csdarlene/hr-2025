@@ -1,0 +1,107 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 class="dialog-title">{{ isEditMode ? 'Edit Employee' : 'Add New Employee' }}</h2>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="dialog-content">
+      <div class="grid grid-cols-2 gap-4">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" placeholder="Enter first name">
+          <mat-error *ngIf="form.get('firstName')?.hasError('required')">
+            First name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" placeholder="Enter last name">
+          <mat-error *ngIf="form.get('lastName')?.hasError('required')">
+            Last name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" placeholder="Enter email" type="email">
+          <mat-error *ngIf="form.get('email')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone Number</mat-label>
+          <input matInput formControlName="phoneNumber" placeholder="Enter phone number">
+          <mat-error *ngIf="form.get('phoneNumber')?.hasError('required')">
+            Phone number is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="form.get('startDate')?.hasError('required')">
+            Start date is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let role of roles" [value]="role">
+              {{ role }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('role')?.hasError('required')">
+            Role is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Position</mat-label>
+          <input matInput formControlName="position" placeholder="Enter position">
+          <mat-error *ngIf="form.get('position')?.hasError('required')">
+            Position is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Department</mat-label>
+          <mat-select formControlName="departmentId">
+            <mat-option *ngFor="let dept of departments" [value]="dept.id">
+              {{ dept.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('departmentId')?.hasError('required')">
+            Department is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Level</mat-label>
+          <mat-select formControlName="level">
+            <mat-option *ngFor="let level of levels" [value]="level">
+              {{ level }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('level')?.hasError('required')">
+            Level is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn-submit" [disabled]="!form.valid">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </form>
+</div>

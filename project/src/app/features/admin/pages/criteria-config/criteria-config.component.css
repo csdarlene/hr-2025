@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: #f9fafb;
+  z-index: 1;
+}
+
+.btn-primary {
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+.form-select {
+  min-width: 200px;
+}
