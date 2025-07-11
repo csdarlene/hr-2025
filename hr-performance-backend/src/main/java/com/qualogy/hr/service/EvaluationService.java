@@ -44,6 +44,7 @@ public class EvaluationService {
         return evaluationMapper.toDto(evaluation);
     }
 
+    @Auditable
     @Transactional
     public EvaluationResponse createEvaluation(EvaluationRequest evaluationRequest) {
         User employee = userRepository.findById(evaluationRequest.getEmployeeId())
@@ -68,9 +69,13 @@ public class EvaluationService {
         evaluation.setStatus(EvaluationStatus.DRAFT);
 
         Evaluation savedEvaluation = evaluationRepository.save(evaluation);
+        notificationService.sendEvaluationAssignedNotification(savedEvaluation);
+        auditLogService.log("CREATE", "EVALUATION", savedEvaluation.getId(), 
+        null, savedEvaluation.toString());
         return evaluationMapper.toDto(savedEvaluation);
     }
 
+    @Auditable
     @Transactional
     public EvaluationResponse updateEvaluation(Long id, EvaluationRequest evaluationRequest) {
         Evaluation existingEvaluation = evaluationRepository.findById(id)
@@ -104,9 +109,12 @@ public class EvaluationService {
         }
 
         Evaluation updatedEvaluation = evaluationRepository.save(existingEvaluation);
-        return evaluationMapper.toDto(updatedEvaluation);
+        auditLogService.log("UPDATE", "EVALUATION", id, 
+        existingEvaluation.toString(), updatedEvaluation.toString());
+return evaluationMapper.toDto(updatedEvaluation);
     }
 
+    @Auditable
     @Transactional
     public void deleteEvaluation(Long id) {
         Evaluation evaluation = evaluationRepository.findById(id)
@@ -115,7 +123,8 @@ public class EvaluationService {
         if (evaluation.isFinalized()) {
             throw new IllegalStateException("Cannot delete a finalized evaluation");
         }
-        
+        auditLogService.log("DELETE", "EVALUATION", id, 
+        evaluation.toString(), null);
         evaluationRepository.delete(evaluation);
     }
 

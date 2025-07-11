@@ -14,6 +14,9 @@ public class UserSecurity {
     @Autowired
     private EvaluationRepository evaluationRepository;
 
+    @Autowired
+    private EvaluationAttachmentRepository attachmentRepository;
+
     public boolean isSelf(Long userId, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String currentUsername = userDetails.getUsername();
@@ -82,5 +85,63 @@ public class UserSecurity {
                     evaluation.getEvaluator().getUsername().equals(username) &&
                     !evaluation.isFinalized())
                 .orElse(false);
+    }
+    public boolean isAttachmentAccessible(Long attachmentId, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return false;
+        }
+    
+        // Admin and HR can access any attachment
+        if (hasAnyRole(authentication, "ROLE_ADMIN", "ROLE_HR_MANAGER")) {
+            return true;
+        }
+    
+        // Check if the user is the uploader or has access to the evaluation
+        return attachmentRepository.findById(attachmentId)
+                .map(attachment -> {
+                    Long uploaderId = attachment.getUploadedBy();
+                    Long evaluationId = attachment.getEvaluation().getId();
+                    
+                    // Allow if user is the uploader
+                    if (uploaderId != null && uploaderId.toString().equals(authentication.getName())) {
+                        return true;
+                    }
+                    
+                    // Allow if user has access to the evaluation
+                    return isEvaluationAccessible(evaluationId, authentication);
+                })
+                .orElse(false);
+    }
+    
+    public boolean isAttachmentEditable(Long attachmentId, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return false;
+        }
+    
+        // Admin and HR can edit any attachment
+        if (hasAnyRole(authentication, "ROLE_ADMIN", "ROLE_HR_MANAGER")) {
+            return true;
+        }
+    
+        // Check if the user is the uploader of the attachment
+        return attachmentRepository.findById(attachmentId)
+                .map(attachment -> {
+                    Long uploaderId = attachment.getUploadedBy();
+                    return uploaderId != null && uploaderId.toString().equals(authentication.getName());
+                })
+                .orElse(false);
+    }
+    
+    private boolean hasAnyRole(Authentication authentication, String... roles) {
+        return authentication.getAuthorities().stream()
+                .anyMatch(a -> {
+                    String authority = a.getAuthority();
+                    for (String role : roles) {
+                        if (authority.equals(role)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
     }
 }
