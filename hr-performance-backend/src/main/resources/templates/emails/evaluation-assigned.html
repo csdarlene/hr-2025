@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Evaluation Assigned</title>
+</head>
+<body>
+    <p>Dear <span th:text="${employeeName}">User</span>,</p>
+    <p>A new evaluation has been assigned to you for <span th:text="${evaluationPeriod}">evaluation period</span>.</p>
+    <p>Please complete your self-evaluation by <span th:text="${dueDate}">due date</span>.</p>
+    <p>Click <a th:href="${evaluationUrl}">here</a> to access the evaluation.</p>
+    <p>Best regards,<br>HR Team</p>
+</body>
+</html>

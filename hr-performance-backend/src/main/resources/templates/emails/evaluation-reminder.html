@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Evaluation Reminder</title>
+</head>
+<body>
+    <p>Dear <span th:text="${recipientName}">User</span>,</p>
+    <p>This is a reminder that you have a pending evaluation for <span th:text="${employeeName}">employee</span> 
+    for <span th:text="${evaluationPeriod}">evaluation period</span>.</p>
+    <p>The evaluation is due on <span th:text="${dueDate}">due date</span>.</p>
+    <p>Click <a th:href="${evaluationUrl}">here</a> to complete the evaluation.</p>
+    <p>Best regards,<br>HR Team</p>
+</body>
+</html>
